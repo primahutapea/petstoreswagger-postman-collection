@@ -1,0 +1,698 @@
+{
+	"info": {
+		"_postman_id": "25133299-aa77-40ee-ae3a-b9b8c86dc49d",
+		"name": "Pet Store Swagger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17210679",
+		"_collection_link": "https://www.postman.com/warped-shuttle-150156/workspace/testing-api/collection/17210679-25133299-aa77-40ee-ae3a-b9b8c86dc49d?action=share&source=collection_link&creator=17210679"
+	},
+	"item": [
+		{
+			"name": "1. Add new pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct name\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.name).to.eql(\"Ciko\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"name\": \"Ciko\",\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get pet by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct name\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.id).to.eql(12345);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}}\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/{{petId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Update pet with valid data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct name\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.name).to.eql(\"Ciko1\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"name\": \"Ciko1\",\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get pet by status available",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct status\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(Array.isArray(json)).to.be.true;    \r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        json.forEach(pet => {\r",
+							"            pm.expect(pet).to.have.property(\"status\");\r",
+							"            pm.expect(pet.status).to.eql(\"available\");\r",
+							"        });\r",
+							"    } else {\r",
+							"\r",
+							"        pm.expect(json.length).to.eql(0);\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=available",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Get pet by status sold",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct status\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(Array.isArray(json)).to.be.true;    \r",
+							"\r",
+							"    if (json.length > 0) {\r",
+							"        json.forEach(pet => {\r",
+							"            pm.expect(pet).to.have.property(\"status\");\r",
+							"            pm.expect(pet.status).to.eql(\"sold\");\r",
+							"        });\r",
+							"    } else {\r",
+							"\r",
+							"        pm.expect(json.length).to.eql(0);\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=sold",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "sold"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Upload Image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"file has correct name\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message.toLowerCase()).to.include(\"file upload\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Prima_Hutapea/Downloads/Take Home Test_updated.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/{{petId}}/uploadImage",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Delete Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct type\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.type).to.eql(\"unknown\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/{{petId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Verify deleted Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.eql(\"Pet not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/{{petId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. invalid Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.eql(\"Pet not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/1111111111111",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"1111111111111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Non-Numeric Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.include(\"java.lang.NumberFormatException: For input string:\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/aaaaa",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"aaaaa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Create pet with empty JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 415\", function () {\r",
+							"    pm.response.to.have.status(415);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.include(\"MessageException: A message body reader for Java class io.swagger.sample.model.Pet, and Java type class io.swagger.sample.model.Pet, and MIME media type application/octet-stream was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. Invalid JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 415\", function () {\r",
+							"    pm.response.to.have.status(415);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct content\", function () {\r",
+							"    const body = pm.response.text();      // ambil sebagai string, bukan JSON\r",
+							"    pm.expect(body).to.include(\"<type>unknown</type>\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Negative Case"
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13. Update invalid Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.eql(\"bad input\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": aaaa,\r\n  \"name\": \"Ciko\",\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14. Upload without file",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 415\", function () {\r",
+							"    pm.response.to.have.status(415);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct message\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.message).to.include(\"MessageException: A message body reader for Java class io.swagger.sample.model.Pet, and Java type class io.swagger.sample.model.Pet, and MIME media type application/octet-stream was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/{{petId}}/uploadImage",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15. Get Pet by invalid status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body has correct response\", function () {\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json).to.eql([]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?Status=11111",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "Status",
+							"value": "11111"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
